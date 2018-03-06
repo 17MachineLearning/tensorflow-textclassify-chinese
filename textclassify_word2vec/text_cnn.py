@@ -52,7 +52,7 @@ class TextCNN(object):
 
 	    # Combine all the pooled features
         num_filters_total = num_filters * len(filter_sizes)
-        self.h_pool = tf.concat(3, pooled_outputs)
+        self.h_pool = tf.concat(pooled_outputs, 3)
         self.h_pool_flat = tf.reshape(self.h_pool, [-1, num_filters_total])
 
 	    # Add dropout
@@ -61,8 +61,7 @@ class TextCNN(object):
 	    
 	    # Final (unnomalized) scores and predictions
         with tf.name_scope("output"):
-            W = tf.get_variable(
-		                            "W",
+            W = tf.get_variable("W",
 		                            shape = [num_filters_total, num_classes],
                                     initializer = tf.contrib.layers.xavier_initializer())
             
